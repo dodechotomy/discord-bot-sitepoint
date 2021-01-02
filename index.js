@@ -14,12 +14,16 @@ bot.on('message', msg => {
     msg.reply('pong');
     msg.channel.send('pong');
 
-  } else if (msg.content.startsWith('!kick')) {
-    if (msg.mentions.users.size) {
-      const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
-    } else {
-      msg.reply('Please tag a valid user!');
+  }
+});
+
+bot.on("voiceStateUpdate", (oldMember, newMember)=> { 
+  let oldVoice = oldMember.voiceChannelID; 
+  let newVoice = newMember.voiceChannelID; 
+  if (oldVoice != newVoice) {
+    if (oldVoice == null) {
+      console.log("User joined!");
+      bot.channels.get("test").send(newMember + ' joined voice chat.');
     }
   }
 });
